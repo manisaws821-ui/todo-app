@@ -16,7 +16,7 @@
       replace:
         path: /usr/share/nginx/html/index.html
         regexp: 'BACKEND_IP'
-        replace: "{{ hostvars[groups['backend'][0]]['ansible_host'] }}"
+        replace: "{{ groups['backend'][0] }}"
 
     - name: Start and enable nginx
       service:
