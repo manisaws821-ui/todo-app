@@ -60,10 +60,10 @@ pipeline {
                     ).trim()
                     writeFile file: "${ANSIBLE_DIR}/inventory.ini", text: """
 [frontend]
-${FRONTEND_IP} ansible_user=ec2-user ansible_ssh_private_key_file=/home/ubuntu/todo-key.pem
+${FRONTEND_IP} ansible_user=ec2-user ansible_ssh_private_key_file=/var/lib/jenkins/todo-key.pem
 
 [backend]
-${BACKEND_IP} ansible_user=ec2-user ansible_ssh_private_key_file=/home/ubuntu/todo-key.pem
+${BACKEND_IP} ansible_user=ec2-user ansible_ssh_private_key_file=/var/lib/jenkins/todo-key.pem
 """
                 }
             }
