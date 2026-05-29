@@ -54,12 +54,12 @@
         src: ../backend/
         dest: /home/ec2-user/backend/
 
-    - - name: Kill any existing flask process
-        shell: |
-          PID=$(pgrep -f "python3.*app.py") && kill $PID || true
-        args:
-           executable: /bin/bash
-        ignore_errors: true
+    - name: Kill any existing flask process    # ← same level as other tasks
+      shell: |
+        PID=$(pgrep -f "python3.*app.py") && kill $PID || true
+      args:
+        executable: /bin/bash
+      ignore_errors: true
 
     - name: Run flask app
       shell: |
