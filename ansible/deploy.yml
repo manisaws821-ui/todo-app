@@ -1,0 +1,56 @@
+---
+- hosts: frontend
+  become: yes
+
+  tasks:
+
+    - name: install nginx
+      yum:
+        name: nginx
+        state: present
+
+    - name: copy frontend files
+      copy:
+        src: ../frontend/
+        dest: /usr/share/nginx/html/
+
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+        enabled: yes
+
+
+- hosts: backend
+  become: yes
+
+  tasks:
+
+    - name: install python
+      yum:
+        name: python3
+        state: present
+
+    - name: install pip
+      yum:
+        name: python3-pip
+        state: present
+
+    - name: install flask
+      pip:
+        name: flask
+        executable: pip3
+
+    - name: create backend folder
+      file:
+        path: /home/ec2-user/backend
+        state: directory
+
+    - name: copy backend files
+      copy:
+        src: ../backend/
+        dest: /home/ec2-user/backend/
+
+    - name: run flask app
+      shell: |
+        nohup python3 /home/ec2-user/backend/app.py > /tmp/flask.log 2>&1 &

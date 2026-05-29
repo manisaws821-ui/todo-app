@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Todo App</title>
+</head>
+
+<body>
+  <h1>My To-Do App</h1>
+
+  <input id="task" placeholder="Enter task">
+  <button onclick="addTask()">Add</button>
+
+  <ul id="tasks"></ul>
+
+  <script>
+    const API = "http://BACKEND_IP:5000/tasks";
+
+    function loadTasks() {
+      fetch(API)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("tasks").innerHTML =
+            data.map(t => `<li>${t}</li>`).join("");
+        });
+    }
+
+    function addTask() {
+      const task = document.getElementById("task").value;
+
+      fetch(API, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ task })
+      }).then(() => {
+        document.getElementById("task").value = "";
+        loadTasks();
+      });
+    }
+
+    loadTasks();
+  </script>
+</body>
+</html>
